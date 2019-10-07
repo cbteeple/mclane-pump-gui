@@ -6,12 +6,15 @@
 #include <QTextStream>
 #include <QFile>
 #include <QStringList>
+#include <QScreen>
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     w.show();
     return a.exec();
