@@ -11,7 +11,8 @@ This is a GUI for operting a McLane deep-sea rated low-pressure hydraulic pump t
 
 ### Software
 - [Qt Development Platform](https://www.qt.io/) - The GUI is written in C++ using the Qt IDE, and must be built and run from within the IDE.
-    - Confirmed working version of Qt is: [INSERT]
+    - Confirmed working version of Qt Creator: **4.10.0**
+    - Confirmed Kit to use on Windows 10: **Desktop 5.12.2 MinGQ 64-bit**
 - Appropriate device drivers for USB to Serial converter
 
 ## Setup
@@ -43,3 +44,5 @@ This is a GUI for operting a McLane deep-sea rated low-pressure hydraulic pump t
     1. Go to the settings and locate the "*shadow build*" box.
     2. Set it to somewhere intelligent. Usually it should be set to the "*build*" folder inside the main folder.
     3. Force-quit the Qt IDE and re-open it. Everything should work now
+- If the GUI looks gross on a high-DPI screen in Windows
+    1. You're out of luck. [Qt (still) only supports integer scaling factors](https://bugreports.qt.io/browse/QTBUG-55654?focusedCommentId=330300&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel). [Qt's official documentation](https://doc.qt.io/qt-5/highdpi.html) says nothing about this.
