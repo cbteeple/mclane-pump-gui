@@ -12,7 +12,7 @@ This is a GUI for operting a McLane deep-sea rated low-pressure hydraulic pump t
 ### Software
 - [Qt Development Platform](https://www.qt.io/) - The GUI is written in C++ using the Qt IDE, and must be built and run from within the IDE.
     - Confirmed working version of Qt Creator: **4.10.0**
-    - Confirmed Kit to use on Windows 10: **Desktop 5.12.2 MinGQ 64-bit*
+    - Confirmed Kit to use on Windows 10: **Desktop 5.12.2 MinGQ 64-bit**
 - Appropriate device drivers for USB to Serial converter
 
 ## Setup
