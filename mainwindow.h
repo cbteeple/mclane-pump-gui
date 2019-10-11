@@ -39,6 +39,7 @@ private slots:
     void handleError(QSerialPort::SerialPortError error);
     void sendGrabCommand();
     void sendStopCommand();
+    void sendStopCommand(bool);
     void sendReleaseCommand();
 
 private:

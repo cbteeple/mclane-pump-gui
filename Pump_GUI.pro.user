@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 4.0.3, 2019-10-11T17:54:03. -->
+=======
+<!-- Written by QtCreator 4.10.0, 2019-10-11T11:37:49. -->
+>>>>>>> 0f3e9be7c126133cddd821eae1cef4b35f170611
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -299,6 +303,11 @@
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+<<<<<<< HEAD
+=======
+    <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default"></value>
+>>>>>>> 0f3e9be7c126133cddd821eae1cef4b35f170611
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
