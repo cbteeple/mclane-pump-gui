@@ -115,8 +115,8 @@
    <widget class="QPushButton" name="pushButton_release">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>150</y>
+      <x>30</x>
+      <y>140</y>
       <width>101</width>
       <height>61</height>
      </rect>
@@ -140,24 +140,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="openButton">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>140</y>
-      <width>101</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Open</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -165,7 +147,7 @@
      <x>0</x>
      <y>0</y>
      <width>579</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

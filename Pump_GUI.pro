@@ -22,7 +22,8 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
             settingsdialog.h \
-            qcustomplot.h
+            qcustomplot.h \
+            utils.h
 
 FORMS    += mainwindow.ui \
             settingsdialog.ui

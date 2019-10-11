@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
+#include "utils.h"
 
 #include <QMessageBox>
 #include <QtSerialPort/QSerialPort>
@@ -37,7 +38,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_grab,SIGNAL(clicked(bool)),this,SLOT(sendGrabCommand())); //clicked goes low when Grab is pressed
     connect(ui->pushButton_stop,SIGNAL(clicked(bool)),this,SLOT(sendStopCommand()));
     connect(ui->pushButton_release,SIGNAL(clicked(bool)),this,SLOT(sendReleaseCommand()));
-    connect(ui->openButton,SIGNAL(clicked(bool)),this,SLOT(sendOpenCommand())); //clicked goes low when Grab is pressed
+
+    //Make connections between keyboard keys and UI Buttons
+    bindShortcut(ui->pushButton_grab, Qt::Key_Enter);
+    bindShortcut(ui->pushButton_grab, Qt::Key_Return);
+    bindShortcut(ui->pushButton_release, Qt::Key_Backspace);
+    bindShortcut(ui->pushButton_stop, Qt::Key_Escape);
+
 
     //Error messages:
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
@@ -100,6 +107,10 @@ void MainWindow::setUpdate()
 void MainWindow::sendGrabCommand()
 {
 
+    //Send stop before we can start grabbing
+    sendStopCommand();
+    qSleep(300);
+
     QString grabString("forward 1000 250 75 5");
     qDebug() << grabString << grabString.toUtf8().toHex();
 //    writeData(grabString.toUtf8().toHex());
@@ -111,35 +122,13 @@ void MainWindow::sendGrabCommand()
     writeData(sendByte);
 }
 
-void MainWindow::sendOpenCommand()
-{
-
-    QString openString("reverse 250 250 75 5");
-    qDebug() << openString << openString.toUtf8().toHex();
-//    writeData(grabString.toUtf8().toHex());
-    writeData(openString.toUtf8());
-    QByteArray sendByte;
-    sendByte.resize(1);
-    sendByte[0] = 0x0D;
-    qDebug() << sendByte;
-    writeData(sendByte);
-}
-
-void MainWindow::sendStopCommand()
-{
-
-    QString grabString("Stop!");
-    qDebug() << grabString << grabString.toUtf8().toHex();
-//    writeData(grabString.toUtf8().toHex());
-    QByteArray stopByte;
-    stopByte.resize(1);
-    stopByte[0] = 0x03;
-    qDebug() << stopByte;
-    writeData(stopByte);
-}
 
 void MainWindow::sendReleaseCommand()
 {
+
+    //Send stop before we can start releasing
+    sendStopCommand();
+    qSleep(300);
 
     QString releaseString("reverse 250 250 75 5");
     qDebug() << releaseString << releaseString.toUtf8().toHex();
@@ -152,6 +141,20 @@ void MainWindow::sendReleaseCommand()
     qDebug() << sendByte;
     writeData(sendByte);
 
+}
+
+
+void MainWindow::sendStopCommand()
+{
+
+    QString grabString("Stop!");
+    qDebug() << grabString << grabString.toUtf8().toHex();
+//    writeData(grabString.toUtf8().toHex());
+    QByteArray stopByte;
+    stopByte.resize(1);
+    stopByte[0] = 0x03;
+    qDebug() << stopByte;
+    writeData(stopByte);
 }
 
 

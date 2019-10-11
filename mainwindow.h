@@ -40,7 +40,6 @@ private slots:
     void sendGrabCommand();
     void sendStopCommand();
     void sendReleaseCommand();
-    void sendOpenCommand();
 
 private:
     void initActionsConnections();
