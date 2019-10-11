@@ -13,10 +13,12 @@
 #include <QTimer>
 #include <string>
 
-//#include <windows.h>
 //Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 
 //note documentation for qcustomplot
+
+//Define some useful variables
+
 
 //  ----- Begin Constructor -----
 MainWindow::MainWindow(QWidget *parent) :
@@ -40,10 +42,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_release,SIGNAL(clicked(bool)),this,SLOT(sendReleaseCommand()));
 
     //Make connections between keyboard keys and UI Buttons
-    bindShortcut(ui->pushButton_grab, Qt::Key_Enter);
-    bindShortcut(ui->pushButton_grab, Qt::Key_Return);
-    bindShortcut(ui->pushButton_release, Qt::Key_Backspace);
     bindShortcut(ui->pushButton_stop, Qt::Key_Escape);
+    bindShortcut(ui->pushButton_stop, Qt::Key_Down);
+
+    bindShortcut(ui->pushButton_grab, Qt::Key_Right);
+    bindShortcut(ui->pushButton_release, Qt::Key_Left);
 
 
     //Error messages:
@@ -106,18 +109,21 @@ void MainWindow::setUpdate()
 
 void MainWindow::sendGrabCommand()
 {
-
     //Send stop before we can start grabbing
-    sendStopCommand();
-    qSleep(300);
+    if (ui->halt_before_go->checkState()){
+        sendStopCommand(true);
+        qSleep(ui->halt_delay->value());
+    }
 
     QString grabString("forward 1000 250 75 5");
     qDebug() << grabString << grabString.toUtf8().toHex();
-//    writeData(grabString.toUtf8().toHex());
+    ui->textBrowser->append(grabString);
+    //writeData(grabString.toUtf8().toHex());
     writeData(grabString.toUtf8());
-    QByteArray sendByte;
-    sendByte.resize(1);
-    sendByte[0] = 0x0D;
+
+
+    // Send the ending byte
+    QByteArray sendByte = byteToArray(0x0D);
     qDebug() << sendByte;
     writeData(sendByte);
 }
@@ -126,35 +132,40 @@ void MainWindow::sendGrabCommand()
 void MainWindow::sendReleaseCommand()
 {
 
-    //Send stop before we can start releasing
-    sendStopCommand();
-    qSleep(300);
+    //Send stop before we can start grabbing
+    if (ui->halt_before_go->checkState()){
+        sendStopCommand(true);
+        qSleep(ui->halt_delay->value());
+    }
 
     QString releaseString("reverse 250 250 75 5");
+    ui->textBrowser->append(releaseString);
     qDebug() << releaseString << releaseString.toUtf8().toHex();
-    writeData(releaseString.toUtf8().toHex());
-    //    writeData(releaseString.toUtf8().toHex());
+    //writeData(releaseString.toUtf8().toHex());
     writeData(releaseString.toUtf8());
-    QByteArray sendByte;
-    sendByte.resize(1);
-    sendByte[0] = 0x0D;
+
+    // Send the ending byte
+    QByteArray sendByte = byteToArray(0x0D);
     qDebug() << sendByte;
     writeData(sendByte);
 
 }
 
+void MainWindow::sendStopCommand(){
+   sendStopCommand(false);
+}
 
-void MainWindow::sendStopCommand()
+void MainWindow::sendStopCommand(bool silent)
 {
-
-    QString grabString("Stop!");
-    qDebug() << grabString << grabString.toUtf8().toHex();
+    if (!silent){
+        ui->textBrowser->append("STOP!");
+    }
 //    writeData(grabString.toUtf8().toHex());
-    QByteArray stopByte;
-    stopByte.resize(1);
-    stopByte[0] = 0x03;
-    qDebug() << stopByte;
-    writeData(stopByte);
+
+    // Send the ending byte
+    QByteArray sendByte = byteToArray(0x03);
+    qDebug() << sendByte;
+    writeData(sendByte);
 }
 
 
