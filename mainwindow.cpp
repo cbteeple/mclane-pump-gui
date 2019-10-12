@@ -18,6 +18,7 @@
 //note documentation for qcustomplot
 
 //Define some useful variables
+int curr_state = 0;
 
 
 //  ----- Begin Constructor -----
@@ -109,46 +110,37 @@ void MainWindow::setUpdate()
 
 void MainWindow::sendGrabCommand()
 {
+    qDebug()<<"Current State: " <<curr_state;
     //Send stop before we can start grabbing
-    if (ui->halt_before_go->checkState()){
+    if ((ui->halt_before_go->isChecked()) & (curr_state==2)){
         sendStopCommand(true);
-        qSleep(ui->halt_delay->value());
+        delay(ui->halt_delay->value());
     }
 
-    QString grabString("forward 1000 250 75 5");
+    // Send the forward string to the pump
+    QString grabString("forward 1000 250 75 5\r");
     qDebug() << grabString << grabString.toUtf8().toHex();
     ui->textBrowser->append(grabString);
-    //writeData(grabString.toUtf8().toHex());
     writeData(grabString.toUtf8());
-
-
-    // Send the ending byte
-    QByteArray sendByte = byteToArray(0x0D);
-    qDebug() << sendByte;
-    writeData(sendByte);
+    curr_state = 1;
 }
 
 
 void MainWindow::sendReleaseCommand()
 {
-
+    qDebug()<<"Current State: " <<curr_state;
     //Send stop before we can start grabbing
-    if (ui->halt_before_go->checkState()){
+    if ((ui->halt_before_go->isChecked()) & (curr_state==1)){
         sendStopCommand(true);
-        qSleep(ui->halt_delay->value());
+        delay(ui->halt_delay->value());
     }
 
-    QString releaseString("reverse 250 250 75 5");
+    // Send the reverse string to the pump
+    QString releaseString("reverse 250 250 75 5\r");
     ui->textBrowser->append(releaseString);
     qDebug() << releaseString << releaseString.toUtf8().toHex();
-    //writeData(releaseString.toUtf8().toHex());
     writeData(releaseString.toUtf8());
-
-    // Send the ending byte
-    QByteArray sendByte = byteToArray(0x0D);
-    qDebug() << sendByte;
-    writeData(sendByte);
-
+    curr_state = 2;
 }
 
 void MainWindow::sendStopCommand(){
@@ -157,15 +149,16 @@ void MainWindow::sendStopCommand(){
 
 void MainWindow::sendStopCommand(bool silent)
 {
+    qDebug()<<"Current State: " <<curr_state;
     if (!silent){
-        ui->textBrowser->append("STOP!");
+        ui->textBrowser->append("STOP!\r");
     }
-//    writeData(grabString.toUtf8().toHex());
 
     // Send the ending byte
     QByteArray sendByte = byteToArray(0x03);
     qDebug() << sendByte;
     writeData(sendByte);
+    curr_state = 0;
 }
 
 

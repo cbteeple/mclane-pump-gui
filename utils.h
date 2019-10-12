@@ -26,6 +26,13 @@
         }
 
 
+    void delay(int ms)
+    {
+        QTime dieTime= QTime::currentTime().addMSecs(ms);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+
 
     QByteArray byteToArray(int8_t in_byte){
         QByteArray sendByte;
