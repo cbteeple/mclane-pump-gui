@@ -114,7 +114,7 @@ void MainWindow::sendGrabCommand()
     //Send stop before we can start grabbing
     if ((ui->halt_before_go->isChecked()) & (curr_state==2)){
         sendStopCommand(true);
-        delay(ui->halt_delay->value());
+        //delay(ui->halt_delay->value());
     }
 
     // Send the forward string to the pump
@@ -132,7 +132,7 @@ void MainWindow::sendReleaseCommand()
     //Send stop before we can start grabbing
     if ((ui->halt_before_go->isChecked()) & (curr_state==1)){
         sendStopCommand(true);
-        delay(ui->halt_delay->value());
+        //delay(ui->halt_delay->value());
     }
 
     // Send the reverse string to the pump
@@ -159,6 +159,7 @@ void MainWindow::sendStopCommand(bool silent)
     qDebug() << sendByte;
     writeData(sendByte);
     curr_state = 0;
+    delay(ui->halt_delay->value());
 }
 
 
